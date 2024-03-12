@@ -12,10 +12,17 @@ class MoviesController {
     }
 
     public function index() {
-        $movies = $this->movieModel->getLatestMovies();
+        // Busca filmes da base de dados local
+        //$localMovies = $this->movieModel->getLatestMovies();
+
+        // Busca filmes mais recentes da TMDB
+        $tmdbMovies = $this->movieModel->fetchLatestMoviesFromTMDB();
+
         $data = [
-            'movies' => $movies
+            //'localMovies' => $localMovies,
+            'tmdbMovies' => $tmdbMovies
         ];
+
         $this->loadView('latestMovies', $data);
     }
 
