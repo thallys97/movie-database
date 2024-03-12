@@ -17,10 +17,12 @@ class MoviesController {
 
         // Busca filmes mais recentes da TMDB
         $tmdbMovies = $this->movieModel->fetchLatestMoviesFromTMDB();
+        $genresMap = $this->movieModel->getGenresFromTMDB();
 
         $data = [
             //'localMovies' => $localMovies,
-            'tmdbMovies' => $tmdbMovies
+            'tmdbMovies' => $tmdbMovies,
+            'genresMap' => $genresMap
         ];
 
         $this->loadView('latestMovies', $data);
