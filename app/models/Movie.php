@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Database;
+use App\Database\Database;
 
 class Movie {
     private $db;
