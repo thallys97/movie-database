@@ -41,4 +41,30 @@ class Movie {
             return ['error' => $e->getMessage()];
         }
     }
+
+    public function getGenresFromTMDB() {
+        $url = "https://api.themoviedb.org/3/genre/movie/list?api_key={$this->apiKey}&language=pt-BR";
+
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            $genresArray = json_decode($result, true);
+
+            $genresMap = [];
+            if (isset($genresArray['genres'])) {
+                foreach ($genresArray['genres'] as $genre) {
+                    $genresMap[$genre['id']] = $genre['name'];
+                }
+            }
+
+            return $genresMap;
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
 }
