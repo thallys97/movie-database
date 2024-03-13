@@ -13,7 +13,8 @@
     <?php if (isset($data['tmdbMovies']) && is_array($data['tmdbMovies'])): ?>
         <div class="grid grid-cols-5 gap-4">
             <?php foreach ($data['tmdbMovies'] as $movie): ?>
-                <div class="movie bg-white shadow-lg rounded-lg overflow-hidden">
+                 
+                <a href="/movie/<?= $movie['id']; ?>"  class="movie bg-white shadow-lg rounded-lg overflow-hidden">
                     <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($movie['poster_path']); ?>" alt="<?= htmlspecialchars($movie['title']); ?>" class="w-full">
                     <div class="p-4">
                         <h3 class="font-bold"><?= htmlspecialchars($movie['title']); ?></h3>
@@ -26,7 +27,7 @@
                             ⭐ <?= htmlspecialchars(number_format($movie['vote_average'], 1)); ?>/10
                         </div>
                     </div>
-                </div>
+                </a>
             <?php endforeach; ?>
         </div>
     <?php else: ?>
