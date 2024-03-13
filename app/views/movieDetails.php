@@ -9,6 +9,8 @@
 </head>
 <body>
 
+<?php require 'header.php'; ?>
+
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row">
         <div class="md:w-1/4">
