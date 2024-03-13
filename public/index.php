@@ -2,34 +2,39 @@
 require_once __DIR__ . '/../vendor/autoload.php';
 
 // A URL padrão é a raiz '/'
-
-
 $url = trim($_GET['url'] ?? '', '/');
-
-
-
 $urlParts = explode('/', $url);
 
-$controllerName = 'App\\Controllers\\MoviesController';
-$controller = new $controllerName();
+// Inicializa variáveis para controller e method
+$controllerName = '';
+$method = '';
+$params = [];
 
-// Se a URL contiver 'movie' como o primeiro segmento, chame o método 'show'
-if (!empty($urlParts[0]) && $urlParts[0] === 'movie' && !empty($urlParts[1])) {
-    $id = $urlParts[1]; // O ID do filme é o segundo segmento da URL
-    $method = 'show';
-
-    if (method_exists($controller, $method)) {
-        call_user_func_array([$controller, $method], [$id]);
-    } else {
-        echo "Método {$method} não encontrado no controller {$controllerName}.";
+// Roteamento para MoviesController
+if (!empty($urlParts[0]) && $urlParts[0] === 'movie') {
+    $controllerName = 'App\\Controllers\\MoviesController';
+    $controller = new $controllerName();
+    $method = !empty($urlParts[1]) ? 'show' : 'index';
+    if($method == 'show') {
+        $params[] = $urlParts[1]; // Passa o ID do filme como parâmetro
     }
-} else {
-    // Para todas as outras URLs, incluindo a raiz '/', chame o método 'index'
+} 
+// Roteamento para AuthController
+elseif (!empty($urlParts[0]) && in_array($urlParts[0], ['login', 'register', 'logout'])) {
+    $controllerName = 'App\\Controllers\\AuthController';
+    $controller = new $controllerName();
+    $method = $urlParts[0];
+}
+else {
+    // Fallback para MoviesController index
+    $controllerName = 'App\\Controllers\\MoviesController';
+    $controller = new $controllerName();
     $method = 'index';
+}
 
-    if (method_exists($controller, $method)) {
-        call_user_func([$controller, $method]);
-    } else {
-        echo "Método {$method} não encontrado no controller {$controllerName}.";
-    }
+// Chama o método do controller se ele existir
+if (method_exists($controller, $method)) {
+    call_user_func_array([$controller, $method], $params);
+} else {
+    echo "Método {$method} não encontrado no controller {$controllerName}.";
 }
