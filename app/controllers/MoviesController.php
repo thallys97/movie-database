@@ -28,6 +28,15 @@ class MoviesController {
         $this->loadView('latestMovies', $data);
     }
 
+    public function show($id) {
+        $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($id);
+        $data = [
+            'movieDetails' => $movieDetails
+        ];
+    
+        $this->loadView('movieDetails', $data);
+    }
+
     private function loadView($view, $data = []) {
         if (file_exists("../app/views/{$view}.php")) {
             require_once "../app/views/{$view}.php";
