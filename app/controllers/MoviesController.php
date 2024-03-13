@@ -19,6 +19,12 @@ class MoviesController {
         $tmdbMovies = $this->movieModel->fetchLatestMoviesFromTMDB();
         $genresMap = $this->movieModel->getGenresFromTMDB();
 
+
+         // Ordena os filmes por data de lançamento do mais recente para o mais antigo
+        usort($tmdbMovies, function ($a, $b) {
+            return strtotime($b['release_date']) <=> strtotime($a['release_date']);
+        });
+
         $data = [
             //'localMovies' => $localMovies,
             'tmdbMovies' => $tmdbMovies,
@@ -30,8 +36,11 @@ class MoviesController {
 
     public function show($id) {
         $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($id);
+        $genresMap = $this->movieModel->getGenresFromTMDB();
+
         $data = [
-            'movieDetails' => $movieDetails
+            'movieDetails' => $movieDetails,
+            'genresMap' => $genresMap
         ];
     
         $this->loadView('movieDetails', $data);
