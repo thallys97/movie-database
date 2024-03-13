@@ -9,6 +9,8 @@
 </head>
 <body>
 
+<?php require 'header.php'; ?>
+
 <div class="container mx-auto px-4">
 
     <h1 class="text-2xl font-bold mb-4">Filmes em exibição nos cinemas</h1>
