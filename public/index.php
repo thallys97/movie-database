@@ -1,24 +1,35 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
-$url = $_GET['url'] ?? 'movies/index';
-$url = explode('/', $url);
+// A URL padrão é a raiz '/'
 
-// Corrige a criação do nome do controller para incluir o namespace completo
-$controllerName = 'App\\Controllers\\' . ucfirst($url[0]) . 'Controller';
-$method = $url[1] ?? 'index';
 
-// Verifica se a classe do controller existe (não é mais necessário verificar se o arquivo existe)
-if(class_exists($controllerName)) {
-    $controller = new $controllerName();
+$url = trim($_GET['url'] ?? '', '/');
 
-    if(method_exists($controller, $method)) {
-        call_user_func_array([$controller, $method], []);
+
+
+$urlParts = explode('/', $url);
+
+$controllerName = 'App\\Controllers\\MoviesController';
+$controller = new $controllerName();
+
+// Se a URL contiver 'movie' como o primeiro segmento, chame o método 'show'
+if (!empty($urlParts[0]) && $urlParts[0] === 'movie' && !empty($urlParts[1])) {
+    $id = $urlParts[1]; // O ID do filme é o segundo segmento da URL
+    $method = 'show';
+
+    if (method_exists($controller, $method)) {
+        call_user_func_array([$controller, $method], [$id]);
     } else {
-        // Método não encontrado
         echo "Método {$method} não encontrado no controller {$controllerName}.";
     }
 } else {
-    // Controller não encontrado
-    echo "Controller {$controllerName} não encontrado.";
+    // Para todas as outras URLs, incluindo a raiz '/', chame o método 'index'
+    $method = 'index';
+
+    if (method_exists($controller, $method)) {
+        call_user_func([$controller, $method]);
+    } else {
+        echo "Método {$method} não encontrado no controller {$controllerName}.";
+    }
 }
