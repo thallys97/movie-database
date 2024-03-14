@@ -28,6 +28,12 @@ elseif (!empty($urlParts[0]) && in_array($urlParts[0], ['login', 'register', 'lo
     $controller = new $controllerName();
     $method = $urlParts[0];
 }
+
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'watchlist') {
+    $controllerName = 'App\\Controllers\\WatchlistController';
+    $controller = new $controllerName();
+    $method = 'index';
+}
 else {
     // Fallback para MoviesController index
     $controllerName = 'App\\Controllers\\MoviesController';
