@@ -12,41 +12,32 @@ $db = new Database();
 // Comandos SQL para criação das tabelas
 $tables = [
     'Users' => "
-        CREATE TABLE IF NOT EXISTS Users (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            email VARCHAR(255) NOT NULL UNIQUE,
-            password VARCHAR(255) NOT NULL,
-            name VARCHAR(255),
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-        )",
-    'Movies' => "
-        CREATE TABLE IF NOT EXISTS Movies (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            title VARCHAR(255) NOT NULL,
-            description TEXT,
-            release_date DATE,
-            rating DECIMAL(3, 1),
-            actors TEXT
-        )",
-    'Watchlist' => "
-        CREATE TABLE IF NOT EXISTS Watchlist (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT,
-            movie_id INT,
-            FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
-            FOREIGN KEY (movie_id) REFERENCES Movies(id) ON DELETE CASCADE
-        )",
-    'Reviews' => "
-        CREATE TABLE IF NOT EXISTS Reviews (
-            id INT AUTO_INCREMENT PRIMARY KEY,
-            user_id INT,
-            movie_id INT,
-            rating DECIMAL(3, 1),
-            comment TEXT,
-            created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE,
-            FOREIGN KEY (movie_id) REFERENCES Movies(id) ON DELETE CASCADE
-        )"
+    CREATE TABLE IF NOT EXISTS Users (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        email VARCHAR(255) NOT NULL UNIQUE,
+        password VARCHAR(255) NOT NULL,
+        name VARCHAR(255),
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    )",
+
+'Watchlist' => "
+    CREATE TABLE IF NOT EXISTS Watchlist (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        tmdb_movie_id VARCHAR(255) NOT NULL,
+        FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+    )",
+
+'Reviews' => "
+    CREATE TABLE IF NOT EXISTS Reviews (
+        id INT AUTO_INCREMENT PRIMARY KEY,
+        user_id INT NOT NULL,
+        tmdb_movie_id VARCHAR(255) NOT NULL,
+        rating DECIMAL(3, 1),
+        comment TEXT,
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
+    )"
 ];
 
 // Loop para executar cada comando SQL
