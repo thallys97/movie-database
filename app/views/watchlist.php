@@ -20,14 +20,16 @@
     <?php else: ?>
         <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
             <?php foreach ($data['watchlistMovies'] as $movie): ?>
-                <div class="card">
-                    <img src="https://image.tmdb.org/t/p/w500<?= $movie['poster_path'] ?>" alt="<?= $movie['title'] ?>" class="card-img-top">
-                    <div class="card-body">
-                        <h5 class="card-title"><?= htmlspecialchars($movie['title']) ?></h5>
-                        <p class="card-text"><?= implode(', ', array_column($movie['genres'], 'name')) ?></p>
-                        <p class="card-text">Avaliação: <?= htmlspecialchars($movie['vote_average']) ?>/10</p>
+                <a href="/movie/<?= $movie['id']; ?>" class="block">
+                    <div class="card">
+                        <img src="https://image.tmdb.org/t/p/w500<?= $movie['poster_path'] ?>" alt="<?= $movie['title'] ?>" class="card-img-top">
+                        <div class="card-body">
+                            <h5 class="card-title"><?= htmlspecialchars($movie['title']) ?></h5>
+                            <p class="card-text"><?= implode(', ', array_column($movie['genres'], 'name')) ?></p>
+                            <p class="card-text">Avaliação: <?= htmlspecialchars($movie['vote_average']) ?>/10</p>
+                        </div>
                     </div>
-                </div>
+                </a>    
             <?php endforeach; ?>
         </div>
     <?php endif; ?>
