@@ -19,10 +19,12 @@
         <div class="md:w-3/4 md:ml-4">
             <h1 class="text-4xl font-bold mt-2 md:mt-0"><?= htmlspecialchars($data['movieDetails']['title']) ?></h1>
             <?php if (isset($_SESSION['user_id'])): ?>
-                <!-- Botão Adicionar à Watchlist -->
-                <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                    Adicionar à minha watchlist
-                </button>
+                <!-- Início do formulário para adicionar à Watchlist -->
+                <form action="/add-to-watchlist/<?= $data['movieDetails']['id'] ?>" method="post">
+                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                        Adicionar à minha watchlist
+                    </button>
+                </form>
             <?php endif; ?>   
             <p class="text-sm my-2">
                 <strong>Gêneros:</strong> <?= implode(', ', array_map(function ($genre) use ($data) { return htmlspecialchars($data['genresMap'][$genre['id']] ?? 'Gênero Desconhecido'); }, $data['movieDetails']['genres'])) ?>
