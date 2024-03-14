@@ -47,11 +47,15 @@ class WatchlistController {
         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $tmdbMovieId = $movie_id;
             $userId = $_SESSION['user_id'];
-            $this->watchlistModel->addMovieToWatchlist($userId, $tmdbMovieId);
+            $wasAdded = $this->watchlistModel->addMovieToWatchlist($userId, $tmdbMovieId);
     
-            // Redireciona o usuário de volta para a página de detalhes do filme
-            header('Location: /movie/' . $tmdbMovieId);
-            exit;
+            if ($wasAdded) {
+                // Redireciona com uma mensagem de sucesso
+                header('Location: /movie/' . $tmdbMovieId . '?status=added');
+            } else {
+                // Redireciona com uma mensagem de que o filme já está na watchlist
+                header('Location: /movie/' . $tmdbMovieId . '?status=exists');
+            }
         }
     
         // Se a requisição não for POST, redirecionar para a página inicial.
