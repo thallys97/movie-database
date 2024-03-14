@@ -22,9 +22,9 @@ $tables = [
 
 'Watchlist' => "
     CREATE TABLE IF NOT EXISTS Watchlist (
-        id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         tmdb_movie_id VARCHAR(255) NOT NULL,
+        PRIMARY KEY (user_id, tmdb_movie_id),
         FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
     )",
 
