@@ -3,12 +3,15 @@
 namespace App\Controllers;
 
 use App\Models\Watchlist;
+use App\Models\Movie;
 
 class WatchlistController {
     private $watchlistModel;
+    private $movieModel;
 
     public function __construct() {
         $this->watchlistModel = new Watchlist();
+        $this->movieModel = new Movie();
     }
 
     public function index() {
@@ -19,15 +22,41 @@ class WatchlistController {
         }
 
         $userId = $_SESSION['user_id'];
-        $watchlist = $this->watchlistModel->getUserWatchlist($userId);
+        $watchlistIds = $this->watchlistModel->getUserWatchlist($userId);
 
-        // Aqui você irá precisar buscar detalhes dos filmes pela API do TMDB usando os IDs na watchlist
-        // Para simplificação, estamos passando apenas os IDs para a view
+        $watchlistMovies = [];
+        foreach ($watchlistIds as $movieId) {
+            $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($movieId->tmdb_movie_id);
+            if (!isset($movieDetails['error'])) {
+                $watchlistMovies[] = $movieDetails;
+            }
+        }
+
         $data = [
-            'watchlist' => $watchlist,
+            'watchlistMovies' => $watchlistMovies,
         ];
 
         $this->loadView('watchlist', $data);
+    }
+
+    public function addToWatchlist($movie_id) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit;
+        }
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+            $tmdbMovieId = $movie_id;
+            $userId = $_SESSION['user_id'];
+            $this->watchlistModel->addMovieToWatchlist($userId, $tmdbMovieId);
+    
+            // Redireciona o usuário de volta para a página de detalhes do filme
+            header('Location: /movie/' . $tmdbMovieId);
+            exit;
+        }
+    
+        // Se a requisição não for POST, redirecionar para a página inicial.
+        header('Location: /');
+        exit;
     }
 
     private function loadView($view, $data = []) {
