@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+// Inicia a sessão
+session_start();
+
 // A URL padrão é a raiz '/'
 $url = trim($_GET['url'] ?? '', '/');
 $urlParts = explode('/', $url);
