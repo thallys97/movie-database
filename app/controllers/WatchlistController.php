@@ -50,11 +50,13 @@ class WatchlistController {
             $wasAdded = $this->watchlistModel->addMovieToWatchlist($userId, $tmdbMovieId);
     
             if ($wasAdded) {
-                // Redireciona com uma mensagem de sucesso
-                header('Location: /movie/' . $tmdbMovieId . '?status=added');
+                // Retorne JSON em vez de redirecionar.
+                echo json_encode(['success' => true]);
+                exit;
             } else {
-                // Redireciona com uma mensagem de que o filme já está na watchlist
-                header('Location: /movie/' . $tmdbMovieId . '?status=exists');
+                // Retorne JSON de erro se o filme já está na watchlist.
+                echo json_encode(['success' => false, 'error' => 'O filme já está na watchlist.']);
+                exit;
             }
         }
     
@@ -73,9 +75,13 @@ class WatchlistController {
             $userId = $_SESSION['user_id'];
             $tmdbMovieId = $_POST['movie_id'];
             if ($this->watchlistModel->removeMovieFromWatchlist($userId, $tmdbMovieId)) {
-                header('Location: /watchlist');
+                // Não redirecione, apenas retorne um JSON de sucesso.
+                echo json_encode(['success' => true]);
+                exit;
             } else {
-                // Tratar o caso de erro na exclusão
+                // Retorne um JSON de erro.
+                echo json_encode(['success' => false, 'error' => 'Não foi possível remover da watchlist.']);
+                exit;
             }
         }
     }
