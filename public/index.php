@@ -42,6 +42,12 @@ elseif (!empty($urlParts[0]) && $urlParts[0] === 'add-to-watchlist') {
     $params[] = $urlParts[1];
 }
 
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'delete-from-watchlist') {
+    $controllerName = 'App\\Controllers\\WatchlistController';
+    $controller = new $controllerName();
+    $method = 'deleteFromWatchlist';
+}
+
 else {
     // Fallback para MoviesController index
     $controllerName = 'App\\Controllers\\MoviesController';
