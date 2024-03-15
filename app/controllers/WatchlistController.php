@@ -63,6 +63,23 @@ class WatchlistController {
         exit;
     }
 
+    public function deleteFromWatchlist() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit;
+        }
+    
+        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['movie_id'])) {
+            $userId = $_SESSION['user_id'];
+            $tmdbMovieId = $_POST['movie_id'];
+            if ($this->watchlistModel->removeMovieFromWatchlist($userId, $tmdbMovieId)) {
+                header('Location: /watchlist');
+            } else {
+                // Tratar o caso de erro na exclusão
+            }
+        }
+    }
+
     private function loadView($view, $data = []) {
         if (file_exists("../app/views/{$view}.php")) {
             require_once "../app/views/{$view}.php";
