@@ -27,6 +27,12 @@
                             <h5 class="card-title"><?= htmlspecialchars($movie['title']) ?></h5>
                             <p class="card-text"><?= implode(', ', array_column($movie['genres'], 'name')) ?></p>
                             <p class="card-text">Avaliação: <?= htmlspecialchars($movie['vote_average']) ?>/10</p>
+                            <form action="/delete-from-watchlist/<?= $movie['id'] ?>" method="post">
+                                <input type="hidden" name="movie_id" value="<?= $movie['id'] ?>">
+                                <button type="submit" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
+                                    Remover
+                                </button>
+                            </form>
                         </div>
                     </div>
                 </a>    
