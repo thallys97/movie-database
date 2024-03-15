@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Models\Movie;
+use App\Models\Watchlist;
 
 class MoviesController {
     private $movieModel;
@@ -37,15 +38,20 @@ class MoviesController {
     public function show($id) {
         $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($id);
         $genresMap = $this->movieModel->getGenresFromTMDB();
-
+    
+        // Injeta a model Watchlist para recuperar os filmes da watchlist do usuário
+        $watchlistModel = new Watchlist();
+        $watchlistMovies = isset($_SESSION['user_id']) ? $watchlistModel->getUserWatchlist($_SESSION['user_id']) : [];
+    
         $data = [
             'movieDetails' => $movieDetails,
-            'genresMap' => $genresMap
+            'genresMap' => $genresMap,
+            'watchlistMovies' => $watchlistMovies // Adiciona os filmes da watchlist aos dados passados para a view
         ];
     
         $this->loadView('movieDetails', $data);
     }
-
+    
     private function loadView($view, $data = []) {
         if (file_exists("../app/views/{$view}.php")) {
             require_once "../app/views/{$view}.php";
