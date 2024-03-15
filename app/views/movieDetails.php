@@ -19,10 +19,27 @@
         <div class="md:w-3/4 md:ml-4">
             <h1 class="text-4xl font-bold mt-2 md:mt-0"><?= htmlspecialchars($data['movieDetails']['title']) ?></h1>
             <?php if (isset($_SESSION['user_id'])): ?>
+                <?php
+                    // Inicialize a variável $isInWatchlist como false
+                    $isInWatchlist = false;
+
+                    // Verifica se o filme está na watchlist do usuário
+                    foreach ($data['watchlistMovies'] as $watchlistmovie) {
+                        // Assumindo que $data['movieDetails']['id'] é uma string ou um número,
+                        // e $watchlistmovie é um objeto com a propriedade tmdb_movie_id.
+                        if ($data['movieDetails']['id'] == $watchlistmovie->tmdb_movie_id) {
+                            $isInWatchlist = true;
+                            break; // Sai do loop se o filme já está na watchlist
+                        }
+                    }
+
+                    $buttonText = $isInWatchlist ? "Excluir da watchlist" : "Adicionar à minha watchlist";
+                    $formAction = $isInWatchlist ? "/delete-from-watchlist" : "/add-to-watchlist";
+                ?>
                 <!-- Início do formulário para adicionar à Watchlist -->
-                <form action="/add-to-watchlist/<?= $data['movieDetails']['id'] ?>" method="post">
-                    <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
-                        Adicionar à minha watchlist
+                <form action="<?= $formAction; ?>/<?= $data['movieDetails']['id'] ?>" method="post">
+                    <button type="button" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4 watchlist-button" data-movie-id="<?= $data['movieDetails']['id'] ?>" data-action="<?= $isInWatchlist ? 'delete' : 'add' ?>">
+                        <?= $buttonText; ?>
                     </button>
                 </form>
             <?php endif; ?>   
@@ -78,5 +95,50 @@
         </div>
     </div>
 </div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var watchlistButton = document.querySelector('.watchlist-button');
+    
+    watchlistButton.addEventListener('click', function(e) {
+        e.preventDefault();
+        
+        var movieId = this.getAttribute('data-movie-id');
+        var action = this.getAttribute('data-action');
+        var url = action === 'add' ? '/add-to-watchlist/' : '/delete-from-watchlist/';
+
+        fetch(url + movieId, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded', // Correção: Header para dados de formulário
+            },
+            body: 'movie_id=' + movieId // Dados enviados no formato de URL-encoded form
+        })
+        .then(response => {
+            console.log(response);
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json(); // Garanta que o servidor está retornando JSON
+        })
+        .then(data => {
+            console.log(data); // Veja o objeto de dados para entender o que está sendo retornado
+            if(data.success) {
+                var newText = action === 'add' ? 'Excluir da watchlist' : 'Adicionar à minha watchlist';
+                var newAction = action === 'add' ? 'delete' : 'add';
+
+                watchlistButton.textContent = newText;
+                watchlistButton.setAttribute('data-action', newAction);
+            } else {
+                alert('Não foi possível modificar a watchlist.');
+            }
+        })
+        .catch(error => {
+            console.error('Houve um erro na requisição:', error);
+        });
+    });
+});
+</script>
+
 </body>
 </html>
