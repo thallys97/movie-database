@@ -62,6 +62,32 @@ class ReviewsController {
         header('Location: /movie/' . $movieId);
     }
 
+    public function myReviews() {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit;
+        }
+    
+        $userId = $_SESSION['user_id'];
+        $myReviews = $this->reviewModel->getReviewsByUserId($userId); // Assuma que você criará este método no modelo Review
+
+
+        $reviewMoviesDetails = [];
+        foreach ($myReviews as $review) {
+            $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($review->tmdb_movie_id);
+            if (!isset($movieDetails['error'])) {
+                $reviewMoviesDetails[] = $movieDetails;
+            }
+        }
+    
+        $data = [
+            'myReviews' => $myReviews,
+            'reviewMoviesDetails' => $reviewMoviesDetails
+        ];
+    
+        $this->loadView('myReviews', $data);
+    }
+
     private function loadView($view, $data = []) {
         if (file_exists("../app/views/{$view}.php")) {
             require_once "../app/views/{$view}.php";
