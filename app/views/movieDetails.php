@@ -92,6 +92,30 @@
                     <?php endforeach; ?>
                 </div>
             </div>
+            <div class="mt-8">
+                <h2 class="text-2xl font-bold">Reviews</h2>
+                <!-- Botão para criar uma review -->
+                <?php if (isset($_SESSION['user_id']) && !$data['userReview']): ?>
+                    <a href="/create-review/<?= $data['movieDetails']['id']; ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Criar Review</a>
+                <?php elseif ($data['userReview']): ?>
+                    <p>Você já fez uma review para este filme.</p>
+                <?php endif; ?>
+
+                <div class="reviews mt-4">
+                    <?php if (!empty($data['reviews'])): ?>
+                        <?php foreach ($data['reviews'] as $review): ?>
+                            <div class="review bg-gray-100 p-4 rounded-lg shadow mb-4">
+                                <div class="review-rating font-bold text-xl"><?= htmlspecialchars($review->rating) ?>/10</div>
+                                <div class="review-text mb-2"><?= nl2br(htmlspecialchars($review->comment)) ?></div>
+                                <div class="review-user">Por: <?= htmlspecialchars($review->user_name) ?></div>
+                                <div class="review-date text-gray-600 text-sm"><?= htmlspecialchars($review->created_at) ?></div>
+                            </div>
+                        <?php endforeach; ?>
+                    <?php else: ?>
+                        <p>Nenhuma review ainda. Seja o primeiro a escrever uma!</p>
+                    <?php endif; ?>
+                </div>
+            </div>
         </div>
     </div>
 </div>
