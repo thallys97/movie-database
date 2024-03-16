@@ -38,8 +38,13 @@ class ReviewsController {
         }
 
         $userId = $_SESSION['user_id'];
-        $rating = $_POST['rating'] ?? null;
+        $rating = $_POST['rating'];
         $comment = trim($_POST['comment']);
+
+        if(empty($_POST['rating'])) {
+            
+            $rating = null;
+        }
 
         $existingReview = $this->reviewModel->getUserReviewByMovieId($userId, $movieId);
         if ($existingReview) {
