@@ -62,6 +62,12 @@ elseif (!empty($urlParts[0]) && $urlParts[0] === 'submit-review') {
     $params[] = $urlParts[1];
 }
 
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'my-reviews') {
+    $controllerName = 'App\\Controllers\\ReviewsController';
+    $controller = new $controllerName();
+    $method = 'myReviews';
+}
+
 else {
     // Fallback para MoviesController index
     $controllerName = 'App\\Controllers\\MoviesController';
