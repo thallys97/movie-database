@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\Movie;
 use App\Models\Watchlist;
+use App\Models\Review;
 
 class MoviesController {
     private $movieModel;
@@ -43,10 +44,19 @@ class MoviesController {
         $watchlistModel = new Watchlist();
         $watchlistMovies = isset($_SESSION['user_id']) ? $watchlistModel->getUserWatchlist($_SESSION['user_id']) : [];
     
+        $reviewModel = new Review();
+        $reviews = $reviewModel->getReviewsByMovieId($id);
+
+        // Busque a possível review existente feita pelo usuário
+        $userReview = isset($_SESSION['user_id']) ? $reviewModel->getUserReviewByMovieId($_SESSION['user_id'], $id) : null;
+
+        
         $data = [
             'movieDetails' => $movieDetails,
             'genresMap' => $genresMap,
-            'watchlistMovies' => $watchlistMovies // Adiciona os filmes da watchlist aos dados passados para a view
+            'watchlistMovies' => $watchlistMovies, // Adiciona os filmes da watchlist aos dados passados para a view
+            'reviews' => $reviews,
+            'userReview' => $userReview // Adiciona a review do usuário aos dados passados para a view
         ];
     
         $this->loadView('movieDetails', $data);
