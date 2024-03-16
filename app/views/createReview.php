@@ -19,7 +19,7 @@
         </div>
         <div class="mt-4">
             <label for="comment" class="block text-sm font-medium text-gray-700">Comentário</label>
-            <textarea id="comment" name="comment" rows="4" class="mt-1 block w-full" placeholder="Escreva sua review aqui..."></textarea>
+            <textarea id="comment" name="comment" rows="4" class="mt-1 block w-full" placeholder="Escreva sua review aqui..." required></textarea>
         </div>
         <div class="mt-4">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Publicar Review</button>
