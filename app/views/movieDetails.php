@@ -105,7 +105,9 @@
                     <?php if (!empty($data['reviews'])): ?>
                         <?php foreach ($data['reviews'] as $review): ?>
                             <div class="review bg-gray-100 p-4 rounded-lg shadow mb-4">
-                                <div class="review-rating font-bold text-xl"><?= htmlspecialchars($review->rating) ?>/10</div>
+                                <?php if (!is_null($review->rating)): ?>
+                                    <div class="review-rating font-bold text-xl"><?= htmlspecialchars($review->rating) ?>/10</div>
+                                <?php endif; ?>
                                 <div class="review-text mb-2"><?= nl2br(htmlspecialchars($review->comment)) ?></div>
                                 <div class="review-user">Por: <?= htmlspecialchars($review->user_name) ?></div>
                                 <div class="review-date text-gray-600 text-sm"><?= htmlspecialchars($review->created_at) ?></div>
