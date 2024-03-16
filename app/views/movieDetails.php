@@ -98,11 +98,19 @@
                 <?php if (isset($_SESSION['user_id']) && !$data['userReview']): ?>
                     <a href="/create-review/<?= $data['movieDetails']['id']; ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Criar Review</a>
                 <?php elseif ($data['userReview']): ?>
-                    <p>Você já fez uma review para este filme.</p>
+                    <h3 class="text-xl font-bold">Sua Review</h3>
+                    <div class="review bg-gray-100 p-4 rounded-lg shadow mb-4">
+                        <?php if (!is_null($data['userReview']->rating)): ?>
+                            <div class="review-rating font-bold text-xl"><?= htmlspecialchars($data['userReview']->rating) ?>/10</div>
+                        <?php endif; ?>
+                        <div class="review-text mb-2"><?= nl2br(htmlspecialchars($data['userReview']->comment)) ?></div>
+                        <div class="review-date text-gray-600 text-sm"><?= htmlspecialchars($data['userReview']->created_at) ?></div>
+                    </div>
                 <?php endif; ?>
 
                 <div class="reviews mt-4">
                     <?php if (!empty($data['reviews'])): ?>
+                        <h3 class="text-xl font-bold">Todas as Reviews</h3>
                         <?php foreach ($data['reviews'] as $review): ?>
                             <div class="review bg-gray-100 p-4 rounded-lg shadow mb-4">
                                 <?php if (!is_null($review->rating)): ?>
