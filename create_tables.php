@@ -33,7 +33,7 @@ $tables = [
         id INT AUTO_INCREMENT PRIMARY KEY,
         user_id INT NOT NULL,
         tmdb_movie_id VARCHAR(255) NOT NULL,
-        rating DECIMAL(3, 1),
+        rating DECIMAL(3, 1) NULL,
         comment TEXT,
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         FOREIGN KEY (user_id) REFERENCES Users(id) ON DELETE CASCADE
