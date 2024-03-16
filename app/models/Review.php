@@ -35,4 +35,11 @@ class Review {
     
         return $this->db->single();
     }
+
+    public function getReviewsByUserId($userId) {
+        $this->db->query("SELECT * FROM Reviews WHERE user_id = :user_id ORDER BY created_at DESC");
+        $this->db->bind(':user_id', $userId);
+    
+        return $this->db->resultSet();
+    }
 }
