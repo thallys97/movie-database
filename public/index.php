@@ -48,6 +48,20 @@ elseif (!empty($urlParts[0]) && $urlParts[0] === 'delete-from-watchlist') {
     $method = 'deleteFromWatchlist';
 }
 
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'create-review') {
+    $controllerName = 'App\\Controllers\\ReviewsController';
+    $controller = new $controllerName();
+    $method = 'createReviewForm';
+    $params[] = $urlParts[1];
+}
+
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'submit-review') {
+    $controllerName = 'App\\Controllers\\ReviewsController';
+    $controller = new $controllerName();
+    $method = 'submitReview';
+    $params[] = $urlParts[1];
+}
+
 else {
     // Fallback para MoviesController index
     $controllerName = 'App\\Controllers\\MoviesController';
