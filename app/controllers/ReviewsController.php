@@ -88,6 +88,26 @@ class ReviewsController {
         $this->loadView('myReviews', $data);
     }
 
+    function showReview($movieId) {
+
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit;
+        }
+    
+        $userId = $_SESSION['user_id'];
+
+        $review = $this->reviewModel->getUserReviewByMovieId($userId, $movieId);
+        $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($movieId);
+
+        $data = [
+            'review' => $review,
+            'movieDetails' => $movieDetails
+        ];
+        $this->loadView('myReview', $data);
+        
+    }
+
     private function loadView($view, $data = []) {
         if (file_exists("../app/views/{$view}.php")) {
             require_once "../app/views/{$view}.php";
