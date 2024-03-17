@@ -10,6 +10,11 @@ class Movie {
     //private $db;
     private $apiKey = '25bbb10392bc8295016e07f3c4804105'; // Substitua por sua chave API da TMDB
 
+    public function __construct() {
+        $this->apiKey = $_ENV['TMDB_API_KEY'] ?? 'fallback_api_key'; // Use um valor padrão caso a chave não esteja definida
+    }
+    
+    
     // public function __construct() {
     //     $this->db = new Database();
     // }
