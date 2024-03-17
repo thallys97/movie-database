@@ -108,6 +108,30 @@ class ReviewsController {
         
     }
 
+    public function deleteReview($reviewId) {
+        if (!isset($_SESSION['user_id'])) {
+            // Redireciona para o login se o usuário não estiver logado
+            header('Location: /login');
+            exit;
+        }
+    
+        //$userId = $_SESSION['user_id'];
+    
+        // Verifica se a review existe e pertence ao usuário
+        $review = $this->reviewModel->getUserReviewByReviewId($reviewId);
+    
+        if ($review) {
+            // Deleta a review
+            $this->reviewModel->deleteReview($reviewId);
+            // Redireciona para a lista de reviews do usuário
+            header('Location: /my-reviews');
+            exit;
+        } else {
+            // Trata o caso em que a review não é encontrada ou não pertence ao usuário
+            die('Review não encontrada ou você não tem permissão para deletar esta review.');
+        }
+    }
+
     private function loadView($view, $data = []) {
         if (file_exists("../app/views/{$view}.php")) {
             require_once "../app/views/{$view}.php";
