@@ -1,3 +1,4 @@
 CombineFilesContent.ps1
 scripts
 /vendor/
+.env
