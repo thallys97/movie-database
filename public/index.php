@@ -11,6 +11,9 @@ session_start();
 $url = trim($_GET['url'] ?? '', '/');
 $urlParts = explode('/', $url);
 
+// Detecta se há um parâmetro de página na URL
+$page = isset($_GET['page']) ? (int)$_GET['page'] : 1;
+
 // Inicializa variáveis para controller e method
 $controllerName = '';
 $method = '';
@@ -103,6 +106,8 @@ else {
     $controllerName = 'App\\Controllers\\MoviesController';
     $controller = new $controllerName();
     $method = 'index';
+    $params[] = $page;
+
 }
 
 // Chama o método do controller se ele existir
