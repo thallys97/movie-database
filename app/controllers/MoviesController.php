@@ -13,12 +13,14 @@ class MoviesController {
         $this->movieModel = new Movie();
     }
 
-    public function index() {
+    public function index($page = 1) {
         // Busca filmes da base de dados local
         //$localMovies = $this->movieModel->getLatestMovies();
 
         // Busca filmes mais recentes da TMDB
-        $tmdbMovies = $this->movieModel->fetchLatestMoviesFromTMDB();
+        $tmdbMoviesData = $this->movieModel->fetchLatestMoviesFromTMDB($page);
+        $tmdbMovies = $tmdbMoviesData['results'];
+        $totalPages = $tmdbMoviesData['totalPages']; // Pega o total de páginas
         $genresMap = $this->movieModel->getGenresFromTMDB();
 
 
@@ -30,7 +32,9 @@ class MoviesController {
         $data = [
             //'localMovies' => $localMovies,
             'tmdbMovies' => $tmdbMovies,
-            'genresMap' => $genresMap
+            'genresMap' => $genresMap,
+            'currentPage' => $page, // Adiciona a página atual aos dados
+            'totalPages' => $totalPages // Adiciona o total de páginas aos dados
         ];
 
         $this->loadView('latestMovies', $data);
