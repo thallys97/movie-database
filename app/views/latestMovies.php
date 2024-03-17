@@ -13,6 +13,8 @@
 
 <div class="container mx-auto px-4">
 
+    <?php require 'searchMovieForm.php'; ?>
+
     <h1 class="text-2xl font-bold mb-4">Filmes em Destaque</h1>
     <?php if (isset($data['tmdbMovies']) && is_array($data['tmdbMovies'])): ?>
         <div class="grid grid-cols-5 gap-4">
