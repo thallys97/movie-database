@@ -25,23 +25,25 @@ class Movie {
     // }
 
     public function fetchLatestMoviesFromTMDB() {
-        $url = "https://api.themoviedb.org/3/movie/now_playing?api_key={$this->apiKey}&language=pt-BR";
-
+        $results = []; // Array para armazenar os resultados combinados das duas páginas
         try {
-            $ch = curl_init();
-            curl_setopt($ch, CURLOPT_URL, $url);
-            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-            $result = curl_exec($ch);
-            curl_close($ch);
-
-            $data = json_decode($result, true);
-
-            // Garantir que a resposta contém a chave 'results' que é esperada ser um array de filmes
-            if (isset($data['results'])) {
-                return $data['results'];
-            } else {
-                return []; // Retorna um array vazio caso não existam resultados
+            for ($page = 1; $page <= 2; $page++) {
+                $url = "https://api.themoviedb.org/3/movie/now_playing?api_key={$this->apiKey}&language=pt-BR&page={$page}";
+                $ch = curl_init();
+                curl_setopt($ch, CURLOPT_URL, $url);
+                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+                $result = curl_exec($ch);
+                curl_close($ch);
+    
+                $data = json_decode($result, true);
+                if (isset($data['results'])) {
+                    $results = array_merge($results, $data['results']); // Adiciona os resultados da página atual ao array de resultados
+                } else {
+                    // Se não houver resultados, não faz mais requisições
+                    break;
+                }
             }
+            return $results; // Retorna os resultados das duas páginas
         } catch (Exception $e) {
             return ['error' => $e->getMessage()];
         }
