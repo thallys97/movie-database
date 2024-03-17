@@ -75,6 +75,13 @@ elseif (!empty($urlParts[0]) && $urlParts[0] === 'review') {
     $params[] = $urlParts[1];
 }
 
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'delete-review') {
+    $controllerName = 'App\\Controllers\\ReviewsController';
+    $controller = new $controllerName();
+    $method = 'deleteReview';
+    $params[] = $urlParts[1]; // Presume-se que $urlParts[1] contém o ID da review
+}
+
 else {
     // Fallback para MoviesController index
     $controllerName = 'App\\Controllers\\MoviesController';
