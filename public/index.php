@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../vendor/autoload.php';
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__ . '/..'); // Ajuste o caminho para o diretório onde o .env está localizado
+$dotenv->load();
+
 // Inicia a sessão
 session_start();
 
