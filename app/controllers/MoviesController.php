@@ -17,17 +17,36 @@ class MoviesController {
         // Busca filmes da base de dados local
         //$localMovies = $this->movieModel->getLatestMovies();
 
+        $searchQuery = $_GET['search'] ?? null; // Pega o termo de busca da URL, se houver
+
+
+
+        if ($searchQuery) {
+            $tmdbMoviesData = $this->movieModel->searchMoviesByTitle($searchQuery);
+        } else {
+            $tmdbMoviesData = $this->movieModel->fetchLatestMoviesFromTMDB($page);
+        }
+        
+        $tmdbMovies = $tmdbMoviesData['results'] ?? []; // Certifique-se de que $tmdbMovies é sempre um array
+        $totalPages = $tmdbMoviesData['totalPages'] ?? 0;
+    
+        
+        
+        
         // Busca filmes mais recentes da TMDB
-        $tmdbMoviesData = $this->movieModel->fetchLatestMoviesFromTMDB($page);
-        $tmdbMovies = $tmdbMoviesData['results'];
-        $totalPages = $tmdbMoviesData['totalPages']; // Pega o total de páginas
+        // $tmdbMoviesData = $this->movieModel->fetchLatestMoviesFromTMDB($page);
+        // $tmdbMovies = $tmdbMoviesData['results'];
+        
+        
         $genresMap = $this->movieModel->getGenresFromTMDB();
-
-
-         // Ordena os filmes por data de lançamento do mais recente para o mais antigo
-        usort($tmdbMovies, function ($a, $b) {
-            return strtotime($b['release_date']) <=> strtotime($a['release_date']);
-        });
+        
+        
+        // Ordena os filmes por data de lançamento do mais recente para o mais antigo
+        if (!empty($tmdbMovies) && !$searchQuery) {
+            usort($tmdbMovies, function ($a, $b) {
+                return strtotime($b['release_date']) <=> strtotime($a['release_date']);
+            });
+        }
 
         $data = [
             //'localMovies' => $localMovies,
