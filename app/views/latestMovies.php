@@ -13,7 +13,7 @@
 
 <div class="container mx-auto px-4">
 
-    <h1 class="text-2xl font-bold mb-4">Filmes em exibição nos cinemas</h1>
+    <h1 class="text-2xl font-bold mb-4">Filmes em Destaque</h1>
     <?php if (isset($data['tmdbMovies']) && is_array($data['tmdbMovies'])): ?>
         <div class="grid grid-cols-5 gap-4">
             <?php foreach ($data['tmdbMovies'] as $movie): ?>
