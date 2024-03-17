@@ -92,4 +92,26 @@ class Movie {
         }
     }
 
+    public function searchMoviesByTitle($title) {
+        $url = "https://api.themoviedb.org/3/search/movie?api_key={$this->apiKey}&language=pt-BR&query=" . urlencode($title);
+    
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
+            curl_close($ch);
+    
+            $data = json_decode($result, true);
+    
+            if (isset($data['results'])) {
+                return ['results' => $data['results'], 'totalPages' => 1]; // Presume-se que a busca retorne apenas uma página de resultados
+            } else {
+                return ['results' => [], 'totalPages' => 0];
+            }
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+    }
+
 }
