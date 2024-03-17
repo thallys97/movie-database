@@ -24,28 +24,27 @@ class Movie {
     //     return $this->db->resultSet();
     // }
 
-    public function fetchLatestMoviesFromTMDB() {
-        $results = []; // Array para armazenar os resultados combinados das duas páginas
-        try {
-            for ($page = 1; $page <= 2; $page++) {
-                $url = "https://api.themoviedb.org/3/movie/now_playing?api_key={$this->apiKey}&language=pt-BR&page={$page}";
-                $ch = curl_init();
-                curl_setopt($ch, CURLOPT_URL, $url);
-                curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
-                $result = curl_exec($ch);
-                curl_close($ch);
+    public function fetchLatestMoviesFromTMDB($page = 1) {
+        $url = "https://api.themoviedb.org/3/movie/popular?api_key={$this->apiKey}&language=pt-BR&page={$page}";
     
-                $data = json_decode($result, true);
-                if (isset($data['results'])) {
-                    $results = array_merge($results, $data['results']); // Adiciona os resultados da página atual ao array de resultados
-                } else {
-                    // Se não houver resultados, não faz mais requisições
-                    break;
-                }
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
+            curl_close($ch);
+    
+            $data = json_decode($result, true);
+    
+            if (isset($data['results'])) {
+                $results = $data['results'];
+                $totalPages = $data['total_pages'] ?? 0; // Adiciona esta linha
+                return ['results' => $results, 'totalPages' => $totalPages]; // Modifica esta linha
+            } else {
+                return ['results' => [], 'totalPages' => 0]; // Modifica esta linha
             }
-            return $results; // Retorna os resultados das duas páginas
         } catch (Exception $e) {
-            return ['error' => $e->getMessage()];
+            return ['results' => [], 'totalPages' => 0, 'error' => $e->getMessage()]; // Modifica esta linha
         }
     }
 
