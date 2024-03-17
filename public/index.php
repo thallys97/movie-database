@@ -82,6 +82,19 @@ elseif (!empty($urlParts[0]) && $urlParts[0] === 'delete-review') {
     $params[] = $urlParts[1]; // Presume-se que $urlParts[1] contém o ID da review
 }
 
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'edit-review') {
+    $controllerName = 'App\\Controllers\\ReviewsController';
+    $controller = new $controllerName();
+    $method = 'editReviewForm';
+    $params[] = $urlParts[1]; // Presume-se que $urlParts[1] contém o ID da review
+}
+elseif (!empty($urlParts[0]) && $urlParts[0] === 'update-review') {
+    $controllerName = 'App\\Controllers\\ReviewsController';
+    $controller = new $controllerName();
+    $method = 'updateReview';
+    $params[] = $urlParts[1]; // Presume-se que $urlParts[1] contém o ID da review
+}
+
 else {
     // Fallback para MoviesController index
     $controllerName = 'App\\Controllers\\MoviesController';
