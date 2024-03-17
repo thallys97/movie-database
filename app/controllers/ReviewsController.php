@@ -132,6 +132,57 @@ class ReviewsController {
         }
     }
 
+    public function editReviewForm($reviewId) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit;
+        }
+    
+        $review = $this->reviewModel->getUserReviewByReviewId($reviewId);
+        if (!$review) {
+            die('Review não encontrada.');
+        }
+    
+        $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($review->tmdb_movie_id);
+    
+        $data = [
+            'review' => $review,
+            'movieDetails' => $movieDetails
+        ];
+        
+        $this->loadView('myReviewEdit', $data);
+    }
+    
+    public function updateReview($reviewId) {
+        if (!isset($_SESSION['user_id'])) {
+            header('Location: /login');
+            exit;
+        }
+    
+        $userId = $_SESSION['user_id'];
+        $rating = $_POST['rating'];
+        $comment = trim($_POST['comment']);
+    
+        if(empty($_POST['rating'])) {
+            
+            $rating = null;
+        }
+        
+        if (empty($comment)) {
+            die('O comentário não pode estar vazio.');
+        }
+    
+        $review = $this->reviewModel->getUserReviewByReviewId($reviewId);
+        if (!$review || $review->user_id != $userId) {
+            die('Review não encontrada ou você não tem permissão para editar esta review.');
+        }
+    
+        $this->reviewModel->updateReview($reviewId, $rating, $comment);
+    
+        header('Location: /review/' . $review->tmdb_movie_id);
+        exit;
+    }
+
     private function loadView($view, $data = []) {
         if (file_exists("../app/views/{$view}.php")) {
             require_once "../app/views/{$view}.php";
