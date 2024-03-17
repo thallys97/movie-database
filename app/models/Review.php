@@ -42,4 +42,16 @@ class Review {
     
         return $this->db->resultSet();
     }
+
+    public function getUserReviewByReviewId($reviewId) {
+        $this->db->query("SELECT * FROM Reviews WHERE id = :reviewId");
+        $this->db->bind(':reviewId', $reviewId);
+        return $this->db->single();
+    }
+
+    public function deleteReview($reviewId) {
+        $this->db->query("DELETE FROM Reviews WHERE id = :reviewId");
+        $this->db->bind(':reviewId', $reviewId);
+        return $this->db->execute();
+    }
 }
