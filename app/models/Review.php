@@ -54,4 +54,12 @@ class Review {
         $this->db->bind(':reviewId', $reviewId);
         return $this->db->execute();
     }
+
+    public function updateReview($reviewId, $rating, $comment) {
+        $this->db->query("UPDATE Reviews SET rating = :rating, comment = :comment WHERE id = :reviewId");
+        $this->db->bind(':rating', $rating);
+        $this->db->bind(':comment', $comment);
+        $this->db->bind(':reviewId', $reviewId);
+        return $this->db->execute();
+    }
 }
