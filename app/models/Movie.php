@@ -92,6 +92,27 @@ class Movie {
         }
     }
 
+    public function fetchMovieImagesFromTMDB($id){
+
+        $url = "https://api.themoviedb.org/3/movie/{$id}/images?api_key={$this->apiKey}";
+
+        try {
+            $ch = curl_init();
+            curl_setopt($ch, CURLOPT_URL, $url);
+            curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+            $result = curl_exec($ch);
+            curl_close($ch);
+
+            $data = json_decode($result, true);
+
+            return $data;
+
+        } catch (Exception $e) {
+            return ['error' => $e->getMessage()];
+        }
+
+    }
+
     public function searchMoviesByTitle($title) {
         $url = "https://api.themoviedb.org/3/search/movie?api_key={$this->apiKey}&language=pt-BR&query=" . urlencode($title);
     
