@@ -10,7 +10,9 @@
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
 
     <style>
+
         .swiper-container {
+            position: relative; /* Novo estilo para posicionar os filhos absolutamente */
             width: 100%;
             height: auto; /* Isso permite que o contêiner cresça com o conteúdo */
             overflow: hidden; /* Isso impede que as imagens transbordem */
@@ -20,6 +22,19 @@
         .swiper-container:active {
             cursor: grabbing;
         }
+
+        .swiper-button-next, .swiper-button-prev {
+            position: absolute; /* Certifique-se de que estas propriedades estão definidas */
+        }
+
+        .swiper-button-next {
+            right: 0; /* Posiciona o botão à direita */
+        }
+
+        .swiper-button-prev {
+            left: 0; /* Posiciona o botão à esquerda */
+        }
+
 
         .swiper-slide {
             display: flex;
@@ -129,7 +144,7 @@
             </div>
 
             <div class="mt-4">
-                <h2 class="text-2xl font-bold">Gallery</h2>
+                <h2 class="text-2xl font-bold">Galeria de fotos</h2>
                 <div class="swiper-container gallery-top">
                     <div class="swiper-wrapper">
                         <?php foreach ($data['movieImages']['backdrops'] as $image): ?>
