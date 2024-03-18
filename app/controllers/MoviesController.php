@@ -63,6 +63,7 @@ class MoviesController {
     public function show($id) {
         $movieDetails = $this->movieModel->fetchMovieDetailsFromTMDB($id);
         $genresMap = $this->movieModel->getGenresFromTMDB();
+        $movieImages = $this->movieModel->fetchMovieImagesFromTMDB($id);
     
         // Injeta a model Watchlist para recuperar os filmes da watchlist do usuário
         $watchlistModel = new Watchlist();
@@ -80,7 +81,8 @@ class MoviesController {
             'genresMap' => $genresMap,
             'watchlistMovies' => $watchlistMovies, // Adiciona os filmes da watchlist aos dados passados para a view
             'reviews' => $reviews,
-            'userReview' => $userReview // Adiciona a review do usuário aos dados passados para a view
+            'userReview' => $userReview, // Adiciona a review do usuário aos dados passados para a view
+            'movieImages' => $movieImages
         ];
     
         $this->loadView('movieDetails', $data);
