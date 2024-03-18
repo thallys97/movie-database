@@ -11,6 +11,10 @@
 
     <style>
 
+        .hidden {
+            display: none;
+        }
+
         .swiper-container {
             position: relative; /* Novo estilo para posicionar os filhos absolutamente */
             width: 100%;
@@ -129,17 +133,29 @@
                 </div>
             </div>
 
+                        <!-- Botão de alternância -->
+            <button id="toggle-cast" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-4">
+                Mostrar todo o elenco
+            </button>
+
+            <!-- Seção Elenco -->
             <div class="mt-4">
                 <h2 class="text-2xl font-bold">Elenco</h2>
-                <div class="flex flex-wrap -mx-1 overflow-hidden">
-                    <?php foreach ($data['movieDetails']['credits']['cast'] as $index => $cast): ?>
-                        
-                            <div class="my-1 px-1 w-1/2 overflow-hidden md:w-1/6 lg:w-1/6 xl:w-1/6">
-                                <img src="https://image.tmdb.org/t/p/w500<?= $cast['profile_path'] ?>" alt="<?= htmlspecialchars($cast['name']) ?>" class="rounded shadow-md">
-                                <p class="text-center"><?= htmlspecialchars($cast['name']) ?> (<?= htmlspecialchars($cast['character']) ?>)</p>
-                            </div>
-                        
-                    <?php endforeach; ?>
+                <div class="flex flex-wrap -mx-1 overflow-hidden" id="cast-list">
+                    <?php
+                    $count = 0;
+                    foreach ($data['movieDetails']['credits']['cast'] as $index => $cast):
+                        // Defina a classe 'hidden' para atores além dos 12 primeiros
+                        $hiddenClass = $count >= 12 ? 'hidden' : '';
+                    ?>
+                    <div class="my-1 px-1 w-1/2 overflow-hidden md:w-1/6 lg:w-1/6 xl:w-1/6 <?= $hiddenClass ?> cast-member">
+                        <img src="https://image.tmdb.org/t/p/w500<?= $cast['profile_path'] ?>" alt="<?= htmlspecialchars($cast['name']) ?>" class="rounded shadow-md">
+                        <p class="text-center"><?= htmlspecialchars($cast['name']) ?> (<?= htmlspecialchars($cast['character']) ?>)</p>
+                    </div>
+                    <?php
+                        $count++;
+                    endforeach;
+                    ?>
                 </div>
             </div>
 
@@ -239,6 +255,34 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function() {
+    var toggleButton = document.getElementById('toggle-cast');
+    var castList = document.getElementById('cast-list');
+
+    toggleButton.addEventListener('click', function() {
+        var castMembers = castList.querySelectorAll('.cast-member'); // Use uma classe CSS nos membros do elenco
+        var showAll = toggleButton.innerText === 'Mostrar todo o elenco';
+        
+        Array.from(castMembers).forEach(function(member, index) {
+            if (index >= 12) {
+                if (showAll) {
+                    member.classList.remove('hidden');
+                } else {
+                    member.classList.add('hidden');
+                }
+            }
+        });
+        
+        // Alternar o texto do botão
+        toggleButton.innerText = showAll ? 'Não mostrar todo o elenco' : 'Mostrar todo o elenco';
+    });
+});
+
+</script>    
+
 <script>
 document.addEventListener('DOMContentLoaded', function() {
     var galleryTop = new Swiper('.gallery-top', {
