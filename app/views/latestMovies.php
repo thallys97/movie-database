@@ -15,7 +15,9 @@
 
     <?php require 'searchMovieForm.php'; ?>
 
+    <?php if (!$data['movieIsSearched']): ?>
     <h1 class="text-2xl font-bold mb-4">Filmes em Destaque</h1>
+    <?php endif; ?>  
     <?php if (isset($data['tmdbMovies']) && is_array($data['tmdbMovies'])): ?>
         <div class="grid grid-cols-5 gap-4">
             <?php foreach ($data['tmdbMovies'] as $movie): ?>
@@ -45,40 +47,41 @@
     $totalPages = $data['totalPages'];
     ?>
 
-    <div class="pagination-container flex justify-center mt-8 space-x-2">
-        <?php if ($currentPage > 1): ?>
+    <?php if (!$data['movieIsSearched']): ?>
+        <div class="pagination-container flex justify-center mt-8 space-x-2">
+            <?php if ($currentPage > 1): ?>
 
-            <a href="/?page=<?= $currentPage - 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-                &#8592; Anterior
-            </a>
+                <a href="/?page=<?= $currentPage - 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                    &#8592; Anterior
+                </a>
 
-            <a href="/?page=1" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">1</a>
-            
-                <!-- Ponto de suspensão para o início (se aplicável) -->
-                <span class="py-2 px-4">...</span>
-            
-        <?php endif; ?>
-
-        <!-- Páginas adjacentes à página atual -->
-        <?php for ($i = max($currentPage - 2, 1); $i <= min($currentPage + 2, $totalPages); $i++): ?>
-            <a href="/?page=<?= $i; ?>" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded <?= $i === $currentPage ? 'bg-blue-500' : ''; ?>">
-                <?= $i; ?>
-            </a>
-        <?php endfor; ?>
-
-        <?php if ($currentPage < $totalPages): ?>
-            
-            <?php if ($currentPage < $totalPages - 1): ?>
-                <!-- Ponto de suspensão para o fim (se aplicável) -->
-                <span class="py-2 px-4">...</span>
+                <a href="/?page=1" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">1</a>
+                
+                    <!-- Ponto de suspensão para o início (se aplicável) -->
+                    <span class="py-2 px-4">...</span>
+                
             <?php endif; ?>
-            <a href="/?page=<?= $totalPages; ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"><?= $totalPages; ?></a>
-            <a href="/?page=<?= $currentPage + 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-                Próximo &#8594;
-            </a>
-        <?php endif; ?>
-    </div>
 
+            <!-- Páginas adjacentes à página atual -->
+            <?php for ($i = max($currentPage - 2, 1); $i <= min($currentPage + 2, $totalPages); $i++): ?>
+                <a href="/?page=<?= $i; ?>" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded <?= $i === $currentPage ? 'bg-blue-500' : ''; ?>">
+                    <?= $i; ?>
+                </a>
+            <?php endfor; ?>
+
+            <?php if ($currentPage < $totalPages): ?>
+                
+                <?php if ($currentPage < $totalPages - 1): ?>
+                    <!-- Ponto de suspensão para o fim (se aplicável) -->
+                    <span class="py-2 px-4">...</span>
+                <?php endif; ?>
+                <a href="/?page=<?= $totalPages; ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"><?= $totalPages; ?></a>
+                <a href="/?page=<?= $currentPage + 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                    Próximo &#8594;
+                </a>
+            <?php endif; ?>
+        </div>
+    <?php endif; ?>                
 </div>
 
 </body>
