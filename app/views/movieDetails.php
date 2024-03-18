@@ -6,6 +6,41 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <!-- Tailwind CSS CDN -->
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
+    <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+    <style>
+        .swiper-container {
+            width: 100%;
+            height: auto; /* Isso permite que o contêiner cresça com o conteúdo */
+            overflow: hidden; /* Isso impede que as imagens transbordem */
+            cursor: grab;
+        }
+
+        .swiper-container:active {
+            cursor: grabbing;
+        }
+
+        .swiper-slide {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+        }
+
+        .swiper-slide img {
+            width: 100%; /* Isso garante que a imagem preencha o slide */
+            height: auto; /* Isso mantém a proporção da imagem correta */
+            object-fit: cover; /* Isso cobrirá o espaço disponível, cortando o excesso */
+        }
+
+        .swiper-button-next, .swiper-button-prev {
+            color: #fff;
+            display: block;
+        }
+
+    </style>
+
 </head>
 <body>
 
@@ -92,6 +127,22 @@
                     <?php endforeach; ?>
                 </div>
             </div>
+
+            <div class="mt-4">
+                <h2 class="text-2xl font-bold">Gallery</h2>
+                <div class="swiper-container gallery-top">
+                    <div class="swiper-wrapper">
+                        <?php foreach ($data['movieImages']['backdrops'] as $image): ?>
+                        <div class="swiper-slide">
+                            <img src="https://image.tmdb.org/t/p/original<?= htmlspecialchars($image['file_path']) ?>" alt="Imagem do filme" class="object-contain max-h-96">
+                        </div>
+                        <?php endforeach; ?>
+                    </div>
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>       
+
             <div class="mt-8">
                 <h2 class="text-2xl font-bold">Reviews</h2>
                 <!-- Botão para criar uma review -->
@@ -172,6 +223,48 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
+</script>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    var galleryTop = new Swiper('.gallery-top', {
+        spaceBetween: 10,
+        loop: true,
+        navigation: {
+            nextEl: '.swiper-button-next',
+            prevEl: '.swiper-button-prev',
+        },
+        preloadImages: false, // Ativa o lazy loading
+        lazy: true, // Configurações do lazy loading
+        keyboard: {
+            enabled: true,
+            onlyInViewport: true,
+        },
+        mousewheel: true,
+        breakpoints: {
+            // Quando a largura da tela é >= 640px
+            640: {
+                slidesPerView: 2,
+                spaceBetween: 20,
+            },
+            // Quando a largura da tela é >= 768px
+            768: {
+                slidesPerView: 3,
+                spaceBetween: 30,
+            },
+        },
+        on: {
+            init: function () {
+                this.slides.forEach(slide => {
+                    slide.style.display = 'block'; // Garante que todos os slides são visíveis inicialmente
+                });
+            },
+            slideChange: function () {
+                this.slides[this.activeIndex].style.display = 'block';
+            },
+        },
+    });
+});
+
 </script>
 
 </body>
