@@ -19,7 +19,7 @@ class MoviesController {
 
         $searchQuery = $_GET['search'] ?? null; // Pega o termo de busca da URL, se houver
 
-
+        $movieIsSearched = $searchQuery ? true : false;
 
         if ($searchQuery) {
             $tmdbMoviesData = $this->movieModel->searchMoviesByTitle($searchQuery);
@@ -53,7 +53,8 @@ class MoviesController {
             'tmdbMovies' => $tmdbMovies,
             'genresMap' => $genresMap,
             'currentPage' => $page, // Adiciona a página atual aos dados
-            'totalPages' => $totalPages // Adiciona o total de páginas aos dados
+            'totalPages' => $totalPages, // Adiciona o total de páginas aos dados
+            'movieIsSearched' => $movieIsSearched
         ];
 
         $this->loadView('latestMovies', $data);
