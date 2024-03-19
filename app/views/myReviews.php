@@ -5,6 +5,7 @@
     <title>Minhas Reviews</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/review.css">
 </head>
 <body>
 
@@ -29,7 +30,7 @@
                         <?php if (!is_null($review->rating)): ?>
                             <p>Minha Avaliação: <?= htmlspecialchars($review->rating) ?>/10</p>
                         <?php endif; ?>
-                        <p><?= htmlspecialchars($review->comment) ?></p>
+                        <p class="review-text"><?= htmlspecialchars($review->comment) ?></p>
                     </div>
                 </div>
             </a>
