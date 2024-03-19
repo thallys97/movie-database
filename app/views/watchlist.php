@@ -18,7 +18,7 @@
             <p class="text-xl">Nenhum filme foi adicionado na watchlist.</p>
         </div>
     <?php else: ?>
-        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4" id="watchlist-grid">
+        <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-5 gap-4" id="watchlist-grid">
             <?php foreach ($data['watchlistMovies'] as $movie): ?>
                 
                     <div class="card" id="movie-<?= $movie['id']; ?>">
