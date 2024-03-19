@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
 <body class="bg-gray-100">
+    <?php require 'header.php'; ?>
     <div class="container mx-auto px-4">
         <div class="w-full max-w-xs mx-auto mt-20">
             <form class="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" action="/login" method="POST">
@@ -26,6 +27,9 @@
                     <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
                         Entrar
                     </button>
+                    <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="/">
+                        Voltar
+                    </a>
                 </div>
             </form>
             <?php if (isset($_GET['error'])): ?>
