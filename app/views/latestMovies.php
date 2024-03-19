@@ -23,7 +23,11 @@
             <?php foreach ($data['tmdbMovies'] as $movie): ?>
                  
                 <a href="/movie/<?= $movie['id']; ?>"  class="movie bg-white shadow-lg rounded-lg overflow-hidden">
-                    <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($movie['poster_path']); ?>" alt="<?= htmlspecialchars($movie['title']); ?>" class="w-full">
+                    <?php if ($movie['poster_path']): ?>
+                        <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($movie['poster_path']); ?>" alt="<?= htmlspecialchars($movie['title']); ?>" class="w-full">
+                    <?php else: ?>
+                        <img src="/images/sem-imagem.jpg" alt="<?= htmlspecialchars($movie['title']); ?>" class="w-full">
+                    <?php endif; ?>
                     <div class="p-4">
                         <h3 class="font-bold"><?= htmlspecialchars($movie['title']); ?></h3>
                         <div class="text-gray-700 text-sm">
