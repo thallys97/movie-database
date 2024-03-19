@@ -68,7 +68,12 @@
 <div class="container mx-auto px-4 py-8">
     <div class="flex flex-col md:flex-row">
         <div class="md:w-1/4">
+            <?php if($data['movieDetails']['poster_path']) : ?>
             <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($data['movieDetails']['poster_path']) ?>" alt="<?= htmlspecialchars($data['movieDetails']['title']) ?>" class="rounded shadow-md">
+            <?php else: ?>
+              <img src="../../public/images/sem-imagem.jpg" alt="<?= htmlspecialchars($data['movieDetails']['title']) ?>" class="rounded shadow-md">  
+            <?php endif; ?>
+
         </div>
         <div class="md:w-3/4 md:ml-4">
             <h1 class="text-4xl font-bold mt-2 md:mt-0"><?= htmlspecialchars($data['movieDetails']['title']) ?></h1>
@@ -125,7 +130,11 @@
                     <?php foreach ($data['movieDetails']['credits']['crew'] as $crew): ?>
                         <?php if ($crew['job'] === 'Director'): ?>
                             <div class="my-1 px-1 w-1/2 overflow-hidden md:w-1/6 lg:w-1/6 xl:w-1/6">
+                                <?php if (!is_null($crew['profile_path'])): ?>
                                 <img src="https://image.tmdb.org/t/p/w500<?= $crew['profile_path'] ?>" alt="<?= htmlspecialchars($crew['name']) ?>" class="rounded shadow-md">
+                                <?php else: ?>
+                                <img src="/images/sem-imagem.jpg" alt="<?= htmlspecialchars($crew['name']) ?>" class="rounded shadow-md">
+                                <?php endif; ?>
                                 <p class="text-center"><?= htmlspecialchars($crew['name']) ?></p>
                             </div>
                         <?php endif; ?>
@@ -149,7 +158,11 @@
                         $hiddenClass = $count >= 12 ? 'hidden' : '';
                     ?>
                     <div class="my-1 px-1 w-1/2 overflow-hidden md:w-1/6 lg:w-1/6 xl:w-1/6 <?= $hiddenClass ?> cast-member">
-                        <img src="https://image.tmdb.org/t/p/w500<?= $cast['profile_path'] ?>" alt="<?= htmlspecialchars($cast['name']) ?>" class="rounded shadow-md">
+                        <?php if ($cast['profile_path']): ?>
+                            <img src="https://image.tmdb.org/t/p/w500<?= $cast['profile_path'] ?>" alt="<?= htmlspecialchars($cast['name']) ?>" class="rounded shadow-md">
+                        <?php else: ?>
+                            <img src="/images/sem-imagem.jpg" alt="<?= htmlspecialchars($cast['name']) ?>" class="rounded shadow-md">
+                        <?php endif; ?>
                         <p class="text-center"><?= htmlspecialchars($cast['name']) ?> (<?= htmlspecialchars($cast['character']) ?>)</p>
                     </div>
                     <?php
@@ -165,7 +178,11 @@
                     <div class="swiper-wrapper">
                         <?php foreach ($data['movieImages']['backdrops'] as $image): ?>
                         <div class="swiper-slide">
+                            <?php if ($image['file_path']): ?>
                             <img src="https://image.tmdb.org/t/p/original<?= htmlspecialchars($image['file_path']) ?>" alt="Imagem do filme" class="object-contain max-h-96">
+                            <?php else: ?>
+                            <img src="/images/sem-imagem.jpg" alt="Imagem do filme" class="object-contain max-h-96">
+                            <?php endif; ?>
                         </div>
                         <?php endforeach; ?>
                     </div>
@@ -281,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 
-</script>    
+</script>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
