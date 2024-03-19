@@ -1,0 +1,47 @@
+
+.hidden {
+    display: none;
+}
+
+.swiper-container {
+    position: relative; /* Novo estilo para posicionar os filhos absolutamente */
+    width: 100%;
+    height: auto; /* Isso permite que o contêiner cresça com o conteúdo */
+    overflow: hidden; /* Isso impede que as imagens transbordem */
+    cursor: grab;
+}
+
+.swiper-container:active {
+    cursor: grabbing;
+}
+
+.swiper-button-next, .swiper-button-prev {
+    position: absolute; /* Certifique-se de que estas propriedades estão definidas */
+}
+
+.swiper-button-next {
+    right: 0; /* Posiciona o botão à direita */
+}
+
+.swiper-button-prev {
+    left: 0; /* Posiciona o botão à esquerda */
+}
+
+
+.swiper-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.swiper-slide img {
+    width: 100%; /* Isso garante que a imagem preencha o slide */
+    height: auto; /* Isso mantém a proporção da imagem correta */
+    object-fit: cover; /* Isso cobrirá o espaço disponível, cortando o excesso */
+}
+
+.swiper-button-next, .swiper-button-prev {
+    color: #fff;
+    display: block;
+}
