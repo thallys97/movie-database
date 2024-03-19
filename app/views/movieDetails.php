@@ -8,57 +8,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css" />
     <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
-
-    <style>
-
-        .hidden {
-            display: none;
-        }
-
-        .swiper-container {
-            position: relative; /* Novo estilo para posicionar os filhos absolutamente */
-            width: 100%;
-            height: auto; /* Isso permite que o contêiner cresça com o conteúdo */
-            overflow: hidden; /* Isso impede que as imagens transbordem */
-            cursor: grab;
-        }
-
-        .swiper-container:active {
-            cursor: grabbing;
-        }
-
-        .swiper-button-next, .swiper-button-prev {
-            position: absolute; /* Certifique-se de que estas propriedades estão definidas */
-        }
-
-        .swiper-button-next {
-            right: 0; /* Posiciona o botão à direita */
-        }
-
-        .swiper-button-prev {
-            left: 0; /* Posiciona o botão à esquerda */
-        }
-
-
-        .swiper-slide {
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-
-        .swiper-slide img {
-            width: 100%; /* Isso garante que a imagem preencha o slide */
-            height: auto; /* Isso mantém a proporção da imagem correta */
-            object-fit: cover; /* Isso cobrirá o espaço disponível, cortando o excesso */
-        }
-
-        .swiper-button-next, .swiper-button-prev {
-            color: #fff;
-            display: block;
-        }
-
-    </style>
+    <link rel="stylesheet" href="/css/movieDetails.css" />
 
 </head>
 <body>
@@ -229,119 +179,11 @@
     </div>
 </div>
 
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var watchlistButton = document.querySelector('.watchlist-button');
-    
-    watchlistButton.addEventListener('click', function(e) {
-        e.preventDefault();
-        
-        var movieId = this.getAttribute('data-movie-id');
-        var action = this.getAttribute('data-action');
-        var url = action === 'add' ? '/add-to-watchlist/' : '/delete-from-watchlist/';
+<script src="/js/movie-watchlist-button.js"></script>
 
-        fetch(url + movieId, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/x-www-form-urlencoded', // Correção: Header para dados de formulário
-            },
-            body: 'movie_id=' + movieId // Dados enviados no formato de URL-encoded form
-        })
-        .then(response => {
-            console.log(response);
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
-            return response.json(); // Garanta que o servidor está retornando JSON
-        })
-        .then(data => {
-            console.log(data); // Veja o objeto de dados para entender o que está sendo retornado
-            if(data.success) {
-                var newText = action === 'add' ? 'Excluir da watchlist' : 'Adicionar à minha watchlist';
-                var newAction = action === 'add' ? 'delete' : 'add';
+<script src="/js/movie-cast.js"></script>
 
-                watchlistButton.textContent = newText;
-                watchlistButton.setAttribute('data-action', newAction);
-            } else {
-                alert('Não foi possível modificar a watchlist.');
-            }
-        })
-        .catch(error => {
-            console.error('Houve um erro na requisição:', error);
-        });
-    });
-});
-</script>
-
-<script>
-
-document.addEventListener('DOMContentLoaded', function() {
-    var toggleButton = document.getElementById('toggle-cast');
-    var castList = document.getElementById('cast-list');
-
-    toggleButton.addEventListener('click', function() {
-        var castMembers = castList.querySelectorAll('.cast-member'); // Use uma classe CSS nos membros do elenco
-        var showAll = toggleButton.innerText === 'Mostrar todo o elenco';
-        
-        Array.from(castMembers).forEach(function(member, index) {
-            if (index >= 12) {
-                if (showAll) {
-                    member.classList.remove('hidden');
-                } else {
-                    member.classList.add('hidden');
-                }
-            }
-        });
-        
-        // Alternar o texto do botão
-        toggleButton.innerText = showAll ? 'Não mostrar todo o elenco' : 'Mostrar todo o elenco';
-    });
-});
-
-</script>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    var galleryTop = new Swiper('.gallery-top', {
-        spaceBetween: 10,
-        loop: true,
-        navigation: {
-            nextEl: '.swiper-button-next',
-            prevEl: '.swiper-button-prev',
-        },
-        preloadImages: false, // Ativa o lazy loading
-        lazy: true, // Configurações do lazy loading
-        keyboard: {
-            enabled: true,
-            onlyInViewport: true,
-        },
-        mousewheel: true,
-        breakpoints: {
-            // Quando a largura da tela é >= 640px
-            640: {
-                slidesPerView: 2,
-                spaceBetween: 20,
-            },
-            // Quando a largura da tela é >= 768px
-            768: {
-                slidesPerView: 3,
-                spaceBetween: 30,
-            },
-        },
-        on: {
-            init: function () {
-                this.slides.forEach(slide => {
-                    slide.style.display = 'block'; // Garante que todos os slides são visíveis inicialmente
-                });
-            },
-            slideChange: function () {
-                this.slides[this.activeIndex].style.display = 'block';
-            },
-        },
-    });
-});
-
-</script>
+<script src="/js/movie-carousel.js"></script>
 
 </body>
 </html>
