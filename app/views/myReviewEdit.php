@@ -15,11 +15,11 @@
     <form action="/update-review/<?= $data['review']->id; ?>" method="post">
         <div class="mt-4">
             <label for="rating" class="block text-sm font-medium text-gray-700">Nota</label>
-            <input type="number" id="rating" name="rating" class="mt-1 block w-full" placeholder="Nota de 0 a 10" min="0" max="10" step="0.1" value="<?= htmlspecialchars($data['review']->rating) ?>">
+            <input type="number" id="rating" name="rating" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" placeholder="Nota de 0 a 10" min="0" max="10" step="0.1" value="<?= htmlspecialchars($data['review']->rating) ?>">
         </div>
         <div class="mt-4">
             <label for="comment" class="block text-sm font-medium text-gray-700">Comentário</label>
-            <textarea id="comment" name="comment" rows="4" class="mt-1 block w-full" required><?= htmlspecialchars($data['review']->comment) ?></textarea>
+            <textarea id="comment" name="comment" rows="8" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm" required><?= htmlspecialchars($data['review']->comment) ?></textarea>
         </div>
         <div class="mt-4">
             <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Atualizar Review</button>
