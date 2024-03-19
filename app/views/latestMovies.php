@@ -53,35 +53,31 @@
     ?>
 
     <?php if (!$data['movieIsSearched']): ?>
-        <div class="pagination-container flex justify-center mt-8 space-x-2">
+        <div class="pagination-container flex flex-wrap justify-center mt-8 space-x-1">
             <?php if ($currentPage > 1): ?>
-
-                <a href="/?page=<?= $currentPage - 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
+                <a href="/?page=<?= $currentPage - 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded-l">
                     &#8592; Anterior
                 </a>
-
-                <a href="/?page=1" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded">1</a>
-                
-                    <!-- Ponto de suspensão para o início (se aplicável) -->
-                    <span class="py-2 px-4">...</span>
-                
             <?php endif; ?>
 
-            <!-- Páginas adjacentes à página atual -->
-            <?php for ($i = max($currentPage - 2, 1); $i <= min($currentPage + 2, $totalPages); $i++): ?>
-                <a href="/?page=<?= $i; ?>" class="bg-gray-500 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded <?= $i === $currentPage ? 'bg-blue-500' : ''; ?>">
+            <?php if ($currentPage > 3): ?>
+                <a href="/?page=1" class="hidden sm:inline bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded">1</a>
+                <span class="hidden sm:inline py-2 px-3">...</span>
+            <?php endif; ?>
+
+            <?php for ($i = max($currentPage - 1, 1); $i <= min($currentPage + 1, $totalPages); $i++): ?>
+                <a href="/?page=<?= $i; ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded <?= $i === $currentPage ? 'bg-blue-500' : ''; ?>">
                     <?= $i; ?>
                 </a>
             <?php endfor; ?>
 
+            <?php if ($currentPage < $totalPages - 2): ?>
+                <span class="hidden sm:inline py-2 px-3">...</span>
+                <a href="/?page=<?= $totalPages; ?>" class="hidden sm:inline bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded"><?= $totalPages; ?></a>
+            <?php endif; ?>
+
             <?php if ($currentPage < $totalPages): ?>
-                
-                <?php if ($currentPage < $totalPages - 1): ?>
-                    <!-- Ponto de suspensão para o fim (se aplicável) -->
-                    <span class="py-2 px-4">...</span>
-                <?php endif; ?>
-                <a href="/?page=<?= $totalPages; ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded"><?= $totalPages; ?></a>
-                <a href="/?page=<?= $currentPage + 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
+                <a href="/?page=<?= $currentPage + 1 ?>" class="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-3 rounded-r">
                     Próximo &#8594;
                 </a>
             <?php endif; ?>
