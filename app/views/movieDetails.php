@@ -71,7 +71,7 @@
             <?php if($data['movieDetails']['poster_path']) : ?>
             <img src="https://image.tmdb.org/t/p/w500<?= htmlspecialchars($data['movieDetails']['poster_path']) ?>" alt="<?= htmlspecialchars($data['movieDetails']['title']) ?>" class="rounded shadow-md">
             <?php else: ?>
-              <img src="../../public/images/sem-imagem.jpg" alt="<?= htmlspecialchars($data['movieDetails']['title']) ?>" class="rounded shadow-md">  
+              <img src="/images/sem-imagem.jpg" alt="<?= htmlspecialchars($data['movieDetails']['title']) ?>" class="rounded shadow-md">  
             <?php endif; ?>
 
         </div>
