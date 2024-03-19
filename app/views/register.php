@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
     </head>
 <body>
+    <?php require 'header.php'; ?>
     <div class="container mx-auto px-4">
         <h1 class="text-xl font-bold mb-4">Registrar</h1>
         <form action="/register" method="post">
@@ -26,10 +27,13 @@
                 <label for="password_confirmation" class="block text-gray-700 text-sm font-bold mb-2">Confirmar Senha:</label>
                 <input type="password" id="password_confirmation" name="password_confirmation" required class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline" oninput="validatePassword()">
             </div>
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-start gap-4">
                 <button type="submit" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
                     Registrar
                 </button>
+                <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="/">
+                        Voltar
+                </a>
             </div>
         </form>
     </div>
