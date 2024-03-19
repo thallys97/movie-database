@@ -142,7 +142,7 @@
             </div>       
 
             <div class="mt-8">
-                <h2 class="text-2xl font-bold">Reviews</h2>
+                <h2 class="text-2xl font-bold mb-3">Reviews</h2>
                 <!-- Botão para criar uma review -->
                 <?php if (isset($_SESSION['user_id']) && !$data['userReview']): ?>
                     <a href="/create-review/<?= $data['movieDetails']['id']; ?>" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Criar Review</a>
