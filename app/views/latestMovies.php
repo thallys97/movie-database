@@ -17,9 +17,10 @@
 
     <?php if (!$data['movieIsSearched']): ?>
     <h1 class="text-2xl font-bold mb-4">Filmes em Destaque</h1>
-    <?php endif; ?>  
+    <?php endif; ?> 
+
     <?php if (isset($data['tmdbMovies']) && is_array($data['tmdbMovies'])): ?>
-        <div class="grid grid-cols-5 gap-4">
+         <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             <?php foreach ($data['tmdbMovies'] as $movie): ?>
                  
                 <a href="/movie/<?= $movie['id']; ?>"  class="movie bg-white shadow-lg rounded-lg overflow-hidden">
