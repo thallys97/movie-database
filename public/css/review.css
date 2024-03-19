@@ -1,0 +1,9 @@
+.review-text {
+    word-wrap: break-word; /* Allows long words to be able to be broken and wrapped onto the next line */
+    overflow-wrap: break-word; /* Standard CSS3 property that is a synonym for word-wrap */
+}
+
+/* Add this rule to maintain the overall layout with a potential long word */
+.review {
+    overflow: hidden; /* Ensures the content fits in the container */
+}
