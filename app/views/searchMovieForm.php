@@ -12,8 +12,9 @@
             Buscar
         </button>
         <?php if ($data['movieIsSearched']): ?>
-            <a href="/" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded">
-                Limpar busca
-            </a>
+            <button type="button" onclick="window.location.href = '/'" class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded sm:mt-0 mt-4">     
+                    Limpar busca
+            </button>
+
         <?php endif; ?>
     </form>
