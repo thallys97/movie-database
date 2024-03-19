@@ -13,12 +13,14 @@
         <div id="nav-content" class="hidden w-full block flex-grow md:flex md:items-center md:w-auto">
             <?php if (isset($_SESSION['user_id'])): ?>
                 <div class="text-sm md:flex-grow md:flex md:justify-end">
+                    <a href="/" class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white font-bold mr-4">Filmes</a>
                     <a href="/my-reviews" class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white font-bold mr-4">Reviews</a>
                     <a href="/watchlist" class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white font-bold mr-4">Watchlist</a>
                     <a href="/logout" class="block mt-4 md:inline-block md:mt-0 text-teal-200 font-bold hover:text-white">Logout</a>
                 </div>
             <?php else: ?>
                 <div class="text-sm md:flex-grow md:flex md:justify-end">
+                    <a href="/" class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white font-bold mr-4">Filmes</a>
                     <a href="/login" class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white font-bold mr-4">Login</a>
                     <a href="/register" class="block mt-4 md:inline-block md:mt-0 text-teal-200 hover:text-white font-bold">Registro</a>
                 </div>
