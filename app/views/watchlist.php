@@ -23,7 +23,11 @@
                 
                     <div class="card" id="movie-<?= $movie['id']; ?>">
                     <a href="/movie/<?= $movie['id']; ?>" >
-                        <img src="https://image.tmdb.org/t/p/w500<?= $movie['poster_path'] ?>" alt="<?= $movie['title'] ?>" class="card-img-top">
+                        <?php if (($movie['poster_path'])): ?>
+                            <img src="https://image.tmdb.org/t/p/w500<?= $movie['poster_path'] ?>" alt="<?= $movie['title'] ?>" class="card-img-top">
+                        <?php else: ?>
+                            <img src="/images/sem-imagem.jpg" alt="<?= $movie['title'] ?>" class="card-img-top">
+                        <?php endif; ?>
                     </a>
                         <div class="card-body">
                             <h5 class="card-title"><?= htmlspecialchars($movie['title']) ?></h5>
