@@ -6,14 +6,20 @@ use PDO;
 use PDOException;
 
 class Database {
-    private $host = 'localhost';
-    private $db_name = 'moviedb';
-    private $username = 'root';
-    private $password = '';
+    private $host;
+    private $db_name;
+    private $username;
+    private $password;
     private $conn;
     private $stmt;
 
     public function connect() {
+
+        $this->host = $_ENV['host'];
+        $this->db_name = $_ENV['database'];
+        $this->username = $_ENV['database_username'];
+        $this->password = $_ENV['database_password'];
+
         if($this->conn == null) {
             try {
                 $this->conn = new PDO('mysql:host=' . $this->host . ';dbname=' . $this->db_name, $this->username, $this->password);
