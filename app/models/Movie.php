@@ -8,10 +8,13 @@ use Exception;
 
 class Movie {
     //private $db;
-    private $apiKey = '25bbb10392bc8295016e07f3c4804105'; // Substitua por sua chave API da TMDB
+    private $apiKey;
 
     public function __construct() {
-        $this->apiKey = $_ENV['TMDB_API_KEY'] ?? 'fallback_api_key'; // Use um valor padrão caso a chave não esteja definida
+        $this->apiKey = $_ENV['TMDB_API_KEY'] ?? '';
+        if ($this->apiKey === '') {
+            throw new Exception('TMDB_API_KEY não configurada. Defina a chave no arquivo .env');
+        }
     }
     
     
